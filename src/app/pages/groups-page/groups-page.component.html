@@ -1,0 +1,84 @@
+<div class="mt-5">
+  <p style="margin-top: 2em" class="h3 text-center">Grupe</p>
+  <table class="text-center" mdbTable>
+    <thead>
+      <tr>
+        <th *ngFor="let head of headElements" scope="col">{{ head }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr mdbTableCol *ngFor="let el of elements" (click)="basicModal.show(); tempItem = el">
+        <td>{{ el.name }}</td>
+        <td>{{ el.speciality }}</td>
+        <td>{{ el.course }}</td>
+        <td>{{ el.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- MODAL -->
+<div mdbModal #basicModal="mdbModal" class="modal fade top" tabindex="-1" role="dialog"
+  aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fluid modal-full-height modal-top" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <table class="text-center" mdbTable>
+          <thead>
+            <tr>
+              <th scope="col">Nume</th>
+              <th scope="col">Specialitate</th>
+              <th scope="col">Curs</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr mdbTableCol>
+              <td>
+                <div class="md-form form-sm m-0">
+                  <input mdbInput type="text" [value]="tempItem.name" class="form-control form-control-sm">
+                </div>
+              </td>
+              <td>
+                <!-- <div class="md-form form-sm m-0">
+                  <input mdbInput type="text" [value]="tempItem.speciality" class="form-control form-control-sm">
+                </div> -->
+
+                <select class="browser-default custom-select">
+                  <option *ngFor="let spec of specialities" [selected]="tempItem.speciality == spec.name">{{ spec.name }}</option>
+                </select>
+
+
+
+
+              </td>
+              <td>
+                <div class="md-form form-sm m-0">
+                  <input mdbInput type="text" [value]="tempItem.course" class="form-control form-control-sm">
+                </div>
+              </td>
+              <td>
+                <div class="custom-control custom-switch">
+                  <input [checked]="tempItem.status" type="checkbox" class="custom-control-input" id="customSwitches">
+                  <label class="custom-control-label" for="customSwitches">Status</label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close"
+          (click)="basicModal.hide()" mdbWavesEffect>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
