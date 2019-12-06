@@ -11,20 +11,23 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  getGroups() {
-    return this.http.get(this.url + 'group')
+  getData(queryUrl: string) {
+    return this.http.get(this.url + queryUrl)
   }
 
-  getSpecialities(){
-    return this.http.get(this.url + 'speciality')
+  addData(queryUrl: string, body: object) {
+    return this.http.post(this.url + queryUrl, body);
+  }
+  
+  patchData(queryUrl: string, id: number, body: object) {
+    return this.http.patch(this.url + queryUrl + '/' + id, body)
   }
 
+  deleteData(queryUrl: string, id: number) {
+    return this.http.delete(this.url + queryUrl + '/' + id)
+  }
   /*
 http://192.168.100.201:4998/nationality
-http://192.168.100.201:4998/group
-http://192.168.100.201:4998/speciality
 http://192.168.100.201:4998/teacher/1
-
-
   */
 }

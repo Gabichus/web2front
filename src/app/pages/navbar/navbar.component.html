@@ -1,17 +1,6 @@
-<!--Navbar-->
-<mdb-navbar
-  SideClass="navbar navbar-expand-lg navbar-dark success-color"
-  [containerInside]="false"
-  mdbStickyHeader
->
-  <!-- Navbar brand -->
-  <mdb-navbar-brand
-    ><a class="navbar-brand" routerLink="/">Acasa</a></mdb-navbar-brand
-  >
-
-  <!-- Collapsible content -->
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark blue-gradient" [containerInside]="false">
+  <mdb-navbar-brand><a class="navbar-brand" routerLink="/">Acasa</a></mdb-navbar-brand>
   <links>
-    <!-- Links -->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link waves-light" mdbWavesEffect>Features</a>
@@ -19,31 +8,18 @@
       <li class="nav-item">
         <a class="nav-link waves-light" mdbWavesEffect>Pricing</a>
       </li>
-
-      <!-- Dropdown -->
       <li class="nav-item dropdown" dropdown>
-        <a
-          dropdownToggle
-          mdbWavesEffect
-          type="button"
-          class="nav-link dropdown-toggle waves-light"
-          mdbWavesEffect
-        >
-          Tabele<span class="caret"></span
-        ></a>
-        <div
-          *dropdownMenu
-          class="dropdown-menu dropdown dropdown-primary"
-          role="menu"
-        >
+        <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+          Tabele<span class="caret"></span></a>
+        <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
           <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/groups">
             Grupe
           </a>
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#"
-            >Another action</a
-          >
-          <a class="dropdown-item waves-light" mdbWavesEffect href="#">
-            Something else here
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/specialities">
+            Specialitati
+          </a>
+          <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/nationalities">
+            Nationalitati
           </a>
           <div class="divider dropdown-divider"></div>
           <a class="dropdown-item waves-light" mdbWavesEffect href="#">
@@ -52,8 +28,6 @@
         </div>
       </li>
     </ul>
-    <!-- Links -->
-
     <ul class="navbar-nav ml-auto nav-flex-icons">
       <li class="nav-item">
         <a class="nav-link">
@@ -81,6 +55,4 @@
       </li>
     </ul>
   </links>
-  <!-- Collapsible content -->
 </mdb-navbar>
-<!--/.Navbar-->

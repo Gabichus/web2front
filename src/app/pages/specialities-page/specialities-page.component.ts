@@ -1,40 +1,38 @@
-import { Component, OnInit, ViewChild, HostListener, ChangeDetectorRef } from '@angular/core';
-import { HttpService } from '../../services/http.service'
-
-import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md'
+import { Component, OnInit, ViewChild, ChangeDetectorRef, HostListener } from '@angular/core';
+import { MdbTablePaginationComponent, MdbTableDirective } from 'angular-bootstrap-md';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
-  selector: 'app-groups-page',
-  templateUrl: './groups-page.component.html',
-  styleUrls: ['./groups-page.component.scss']
+  selector: 'app-specialities-page',
+  templateUrl: './specialities-page.component.html',
+  styleUrls: ['./specialities-page.component.scss']
 })
-export class GroupsPageComponent implements OnInit {
+export class SpecialitiesPageComponent implements OnInit {
 
   @ViewChild(MdbTablePaginationComponent, { static: true }) mdbTablePagination: MdbTablePaginationComponent;
   @ViewChild(MdbTableDirective, { static: true }) mdbTable: MdbTableDirective
 
-  private queryUrl: string = 'group'
+  private queryUrl: string = 'speciality'
 
-  headElements = ['Nr', 'Grupa', 'Specialitate', 'Curs', 'Status']
+  headElements = ['Nr', 'Specialitatea', 'Durata', 'Nr. Credite', 'Denumirea la engleza'];
   searchText: string = '';
-  deleteCode: any
-  deleteCodeInput: any
-  specialities: any
   elements: any = [];
   previous: any = [];
+  deleteCode: any
+  deleteCodeInput: any
   tempItem: any = {
     id: null,
     name: null,
-    speciality: null,
-    course: null,
-    status: null
+    nrYears: null,
+    nrCredits: null,
+    english: null
   };
   tempAddItem: any = {
     name: null,
-    speciality: null,
-    course: null,
-    status: null
-  };
+    nrYears: null,
+    nrCredits: null,
+    english: null
+  }
 
   constructor(
     private httpS: HttpService,
@@ -46,7 +44,6 @@ export class GroupsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getGroups()
     this.getSpecialities()
   }
 
@@ -68,51 +65,47 @@ export class GroupsPageComponent implements OnInit {
     }
   }
 
-  getGroups() {
+  //#region CRUD
+  getSpecialities() {
     this.httpS.getData(this.queryUrl).subscribe(data => {
+      this.elements = data;
+      this.refreshTable();
+    })
+  }
+
+  addSpeciality() {
+    this.httpS.addData(this.queryUrl, this.tempAddItem).subscribe(data => {
+      this.elements = data
+      this.refreshTable()
+      this.refreshTempAddItem();
+    })
+  }
+
+  patchSpeciality() {
+    const body = {
+      name: this.tempItem.name,
+      nrYears: this.tempItem.nrYears,
+      nrCredits: this.tempItem.nrCredits,
+      english: this.tempItem.english
+    }
+    this.httpS.patchData(this.queryUrl, this.tempItem.id, body).subscribe(data => this.elements = data)
+  }
+
+  deleteSpeciality() {
+    this.httpS.deleteData(this.queryUrl, this.tempItem.id).subscribe(data => {
       this.elements = data;
       this.refreshTable()
     })
   }
+  //#endregion
 
-  getSpecialities() {
-    this.httpS.getData('speciality').subscribe(data => {
-      this.specialities = data
-      this.refreshTable()
-    })
-  }
-
-  patchGroup(specID) {
-    console.log(specID);
-    const body = {
-      name: this.tempItem.name,
-      speciality_id: Number(specID),
-      course: Number(this.tempItem.course),
-      status: this.tempItem.status
-    }
-    console.log(body);
-    this.httpS.patchData(this.queryUrl ,this.tempItem.id, body).subscribe(data => this.elements = data)
-  }
-
-  addGroup(specID) {
-    let body = {
-      name: this.tempAddItem.name,
-      speciality_id: Number(specID),
-      course: Number(this.tempAddItem.course),
-      status: this.tempAddItem.status
-    }
-    this.httpS.addData(this.queryUrl, body).subscribe(data => {
-      this.elements = data
-      this.refreshTable()
-    })
-  }
-
-  deleteGroup(){
-    this.httpS.deleteData(this.queryUrl, this.tempItem.id).subscribe(data => {
-      console.log(data);
-      this.elements = data
-      this.refreshTable()
-    })
+  refreshTempAddItem() {
+    this.tempItem = {
+      name: null,
+      nrYears: null,
+      nrCredits: null,
+      english: null
+    };
   }
 
   refreshTable() {

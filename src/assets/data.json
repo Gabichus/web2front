@@ -1,0 +1,126 @@
+{
+  "group": [
+    {
+      "id": 2,
+      "name": "gr22",
+      "speciality": "sp4",
+      "course": 1,
+      "status": true,
+      "speciality_id": 6
+    },
+    {
+      "id": 3,
+      "name": "gr32",
+      "speciality": "sp4",
+      "course": 11,
+      "status": false
+    },
+    {
+      "id": 4,
+      "name": "gr4",
+      "speciality": "sp4",
+      "course": 1,
+      "status": true
+    },
+    {
+      "id": 5,
+      "name": "gr2123",
+      "speciality": "sp4",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 6,
+      "name": "gr532",
+      "speciality": "sp2",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 7,
+      "name": "gr5625",
+      "speciality": "sp3",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 8,
+      "name": "gr645",
+      "speciality": "sp2",
+      "course": 0,
+      "status": true
+    },
+    {
+      "id": 9,
+      "name": "gr33",
+      "speciality": "sp3",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 10,
+      "name": "gr67",
+      "speciality": "sp2",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 11,
+      "name": "gr89",
+      "speciality": "sp4",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 12,
+      "name": "gr55",
+      "speciality": "sp2",
+      "course": null,
+      "status": null
+    },
+    {
+      "id": 13,
+      "name": "gr12",
+      "speciality": "sp3",
+      "course": null,
+      "status": null
+    }
+  ],
+  "speciality": [
+    {
+      "id": 1,
+      "name": "sp1",
+      "nrYears": 5,
+      "nrCredits": 33,
+      "english": "KEK"
+    },
+    {
+      "id": 3,
+      "name": "sp2",
+      "nrYears": null,
+      "nrCredits": null,
+      "english": null
+    },
+    {
+      "id": 4,
+      "name": "sp3",
+      "nrYears": null,
+      "nrCredits": null,
+      "english": null
+    },
+    {
+      "id": 5,
+      "name": "sp4",
+      "nrYears": null,
+      "nrCredits": null,
+      "english": null
+    },
+    {
+      "id": 6,
+      "name": "sp5",
+      "nrYears": null,
+      "nrCredits": null,
+      "english": null
+    }
+  ]
+}

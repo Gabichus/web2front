@@ -1,8 +1,8 @@
-<div class="mt-2 container">
-  <p class="h3 text-center">Grupe</p>
+<div class="my-2 container">
+  <p class="h3 text-center">Specialitati</p>
 
   <div class="md-form input-group mb-3">
-    <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Cautare dupa GRUPA">
+    <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Cautare dupa SPECIALITATE">
     <div class="input-group-append">
       <button (click)="addingModal.show()" mdbBtn color="primary" size="md" class="m-0 px-3 py-2" type="button"
         id="button-addon1" mdbWavesEffect>Adauga</button>
@@ -17,20 +17,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let el of elements; let i = index" (click)="basicModal.show(); tempItem = el">
+      <tr *ngFor="let el of elements; let i = index" (click)="basicModal.show(); tempItem = el; generateDeleteCode()">
         <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
-          {{i+1}}</th>
+          {{ i+1 }}</th>
         <th *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex" scope="row">
-          {{el.name}}</th>
+          {{ el.name }}</th>
         <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-          {{el.speciality}}
+          {{ el.nrYears }}
         </td>
         <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-          {{el.course}}
+          {{ el.nrCredits }}
         </td>
         <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
-          <mdb-icon [ngStyle]="{'color': el.status ? 'green' : 'red'}" fas icon="{{ el.status ? 'check' : 'ban' }}">
-          </mdb-icon>
+          {{ el.english }}
         </td>
       </tr>
     </tbody>
@@ -60,10 +59,10 @@
         <table class="text-center" mdbTable>
           <thead>
             <tr>
-              <th scope="col">Nume</th>
-              <th scope="col">Specialitate</th>
-              <th scope="col">Curs</th>
-              <th scope="col">Status</th>
+              <th scope="col">Specialitatea</th>
+              <th scope="col">Durata</th>
+              <th scope="col">Nr. Credite</th>
+              <th scope="col">Denumirea la engleza</th>
             </tr>
           </thead>
           <tbody>
@@ -74,21 +73,18 @@
                 </div>
               </td>
               <td>
-                <select class="browser-default custom-select" #modalSpec>
-                  <option *ngFor="let spec of specialities" [selected]="tempItem.speciality == spec.name"
-                    [value]="spec.id">
-                    {{ spec.name }}</option>
-                </select>
-              </td>
-              <td>
                 <div class="md-form form-sm m-0">
-                  <input mdbInput type="text" [(ngModel)]="tempItem.course" class="form-control form-control-sm">
+                  <input mdbInput type="number" [(ngModel)]="tempItem.nrYears" class="form-control form-control-sm">
                 </div>
               </td>
               <td>
-                <div class="custom-control custom-switch">
-                  <input [(ngModel)]="tempItem.status" type="checkbox" class="custom-control-input" id="customSwitches">
-                  <label class="custom-control-label" for="customSwitches">Status</label>
+                <div class="md-form form-sm m-0">
+                  <input mdbInput type="number" [(ngModel)]="tempItem.nrCredits" class="form-control form-control-sm">
+                </div>
+              </td>
+              <td>
+                <div class="md-form form-sm m-0">
+                  <input mdbInput type="text" [(ngModel)]="tempItem.english" class="form-control form-control-sm">
                 </div>
               </td>
             </tr>
@@ -96,12 +92,11 @@
         </table>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" mdbBtn color="danger" mdbWavesEffect
-          (click)="basicModal.hide(); generateDeleteCode(); frame.show()">
+        <button (click)="basicModal.hide(); frame.show()" type="button" mdbBtn color="danger" mdbWavesEffect
+          (click)=" patchSpeciality()">
           Stergere
         </button>
-        <button type="button" mdbBtn color="success" mdbWavesEffect
-          (click)="patchGroup(modalSpec.value); basicModal.hide();">
+        <button type="button" mdbBtn color="success" mdbWavesEffect (click)="basicModal.hide(); patchSpeciality()">
           Confirma
         </button>
       </div>
@@ -115,7 +110,8 @@
   <div class="modal-dialog modal-fluid modal-full-height modal-top" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close pull-right" aria-label="Close" (click)="addingModal.hide();">
+        <button type="button" class="close pull-right" aria-label="Close"
+          (click)="addingModal.hide(); refreshTempItems()">
           <span aria-hidden="true">×</span>
         </button>
         <h4 class="modal-title w-100" id="myModalLabel">Adaugare</h4>
@@ -124,35 +120,32 @@
         <table class="text-center" mdbTable>
           <thead>
             <tr>
-              <th scope="col">Grupa</th>
               <th scope="col">Specialitatea</th>
-              <th scope="col">Curs</th>
-              <th scope="col">Status</th>
+              <th scope="col">Durata</th>
+              <th scope="col">Nr. Credite</th>
+              <th scope="col">Denumirea la engleza</th>
             </tr>
           </thead>
           <tbody>
             <tr mdbTableCol>
               <td>
                 <div class="md-form form-sm m-0">
-                  <input mdbInput type="text" [(ngModel)]="tempAddItem.name" class="form-control form-control-sm">
+                  <input mdbInput type="text" [(ngModel)]="tempItem.name" class="form-control form-control-sm">
                 </div>
-              </td>
-              <td>
-                <select class="browser-default custom-select" #addingModalSpec>
-                  <option *ngFor="let spec of specialities" [value]="spec.id">
-                    {{ spec.name }}</option>
-                </select>
               </td>
               <td>
                 <div class="md-form form-sm m-0">
-                  <input mdbInput type="number" [(ngModel)]="tempAddItem.course" class="form-control form-control-sm">
+                  <input mdbInput type="number" [(ngModel)]="tempItem.nrYears" class="form-control form-control-sm">
                 </div>
               </td>
               <td>
-                <div class="custom-control custom-switch">
-                  <input [(ngModel)]="tempAddItem.status" type="checkbox" class="custom-control-input"
-                    id="customAddSwitches">
-                  <label class="custom-control-label" for="customAddSwitches">Status</label>
+                <div class="md-form form-sm m-0">
+                  <input mdbInput type="number" [(ngModel)]="tempItem.nrCredits" class="form-control form-control-sm">
+                </div>
+              </td>
+              <td>
+                <div class="md-form form-sm m-0">
+                  <input mdbInput type="text" [(ngModel)]="tempItem.english" class="form-control form-control-sm">
                 </div>
               </td>
             </tr>
@@ -163,8 +156,8 @@
         <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="addingModal.hide();">
           Inchide
         </button>
-        <button [disabled]="!(tempAddItem.name && tempAddItem.course)" type="button" mdbBtn color="success"
-          mdbWavesEffect (click)="addGroup(addingModalSpec.value); addingModal.hide();">
+        <button [disabled]="!(tempAddItem.name && tempAddItem.nrYears && tempAddItem.nrCredits && tempAddItem.english)"
+          type="button" mdbBtn color="success" mdbWavesEffect (click)="addSpeciality(); addingModal.hide();">
           Adauga
         </button>
       </div>
@@ -191,7 +184,7 @@
               placeholder="Introduceti cod pentru stergerea">
           </div>
           <button [disabled]="deleteCode != deleteCodeInput"
-            (click)="deleteGroup(); frame.hide(); deleteCodeInput = null" type="button" mdbBtn color="red"
+            (click)="deleteSpeciality(); frame.hide(); deleteCodeInput = null" type="button" mdbBtn color="red"
             class="waves-light" mdbWavesEffect>
             Sterge
             <mdb-icon fas icon="trash-alt" class="ml-1"></mdb-icon>

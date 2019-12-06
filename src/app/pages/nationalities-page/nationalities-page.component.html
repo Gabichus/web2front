@@ -1,0 +1,146 @@
+<div class="mt-2 container">
+    <p class="h3 text-center">Nationalitati</p>
+
+    <div class="md-form input-group mb-3">
+        <div class="input-group-append">
+            <button (click)="addingModal.show()" mdbBtn color="primary" size="md" class="m-0 px-3 py-2" type="button"
+                id="button-addon1" mdbWavesEffect>Adauga</button>
+        </div>
+    </div>
+
+    <table mdbTable #tableEl="mdbTable" class="text-center z-depth-1">
+        <thead>
+            <tr>
+                <th *ngFor="let head of headElements; let i = index" scope="col">{{head}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let el of elements; let i = index" (click)="basicModal.show(); tempItem = el">
+                <th scope="row">
+                    {{i + 1}}
+                </th>
+                <td>
+                    {{el.name}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- MODAL -->
+<div mdbModal #basicModal="mdbModal" class="modal fade top" tabindex="-1" role="dialog"
+    aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fluid modal-full-height modal-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title w-100" id="myModalLabel">Modificare</h4>
+            </div>
+            <div class="modal-body">
+                <table class="text-center" mdbTable>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nationalitatea</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr mdbTableCol>
+                            <td>
+                                <div class="md-form form-sm m-0">
+                                    <input mdbInput type="text" [(ngModel)]="tempItem.name"
+                                        class="form-control form-control-sm">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" mdbBtn color="danger" mdbWavesEffect
+                    (click)="basicModal.hide(); generateDeleteCode(); frame.show()">
+                    Stergere
+                </button>
+                <button type="button" mdbBtn color="success" mdbWavesEffect
+                    (click)="patchNationality(); basicModal.hide();">
+                    Confirma
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL | ADDING SPECIALITY -->
+<div mdbModal #addingModal="mdbModal" class="modal fade top" tabindex="-1" role="dialog"
+    aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fluid modal-full-height modal-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="addingModal.hide();">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title w-100" id="myModalLabel">Adaugare</h4>
+            </div>
+            <div class="modal-body">
+                <table class="text-center" mdbTable>
+                    <thead>
+                        <tr>
+                            <th scope="col">Nationalitatea</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr mdbTableCol>
+                            <td>
+                                <div class="md-form form-sm m-0">
+                                    <input mdbInput type="text" [(ngModel)]="tempAddItem.name"
+                                        class="form-control form-control-sm" placeholder="Introduceti nationalitaea">
+                                </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" mdbBtn color="primary" mdbWavesEffect (click)="addingModal.hide();">
+                    Inchide
+                </button>
+                <button [disabled]="!tempAddItem.name" type="button" mdbBtn color="success"
+                    mdbWavesEffect (click)="addNationality(); addingModal.hide();">
+                    Adauga
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL | DELETING NATIONALITY -->
+<div mdbModal #frame="mdbModal" class="modal fade top modal-scrolling" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
+    <div class="modal-dialog modal-frame modal-top modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row d-flex justify-content-center align-items-center mx-auto">
+                    <div class="md-form input-group mb-3">
+                        <div class="input-group-prepend">
+                            <h2>
+                                <mdb-badge color="red">{{ deleteCode }}</mdb-badge>
+                            </h2>
+                        </div>
+                        <input [(ngModel)]="deleteCodeInput" type="number" class="form-control input-sm"
+                            placeholder="Introduceti cod pentru stergerea">
+                    </div>
+                    <button [disabled]="deleteCode != deleteCodeInput"
+                        (click)="deleteNationality(); frame.hide(); deleteCodeInput = null" type="button" mdbBtn color="red"
+                        class="waves-light" mdbWavesEffect>
+                        Sterge
+                        <mdb-icon fas icon="trash-alt" class="ml-1"></mdb-icon>
+                    </button>
+                    <button type="button" mdbBtn color="info" class="waves-light" mdbWavesEffect data-dismiss="modal"
+                        (click)="frame.hide(); deleteCodeInput = null">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
